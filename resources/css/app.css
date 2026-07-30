@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none !important;
+}
+
+@layer base {
+    body {
+        @apply bg-cream-100 text-ink-800;
+    }
+    ::selection {
+        @apply bg-wine-700 text-cream-50;
+    }
+}
+
+@layer components {
+    /* --- Buttons ------------------------------------------------------ */
+    .btn-primary {
+        @apply inline-flex items-center justify-center gap-2 rounded-full bg-wine-700 px-7 py-3.5 text-sm font-semibold tracking-wide text-cream-50 shadow-sm transition hover:bg-wine-800 hover:shadow-lift focus:outline-none focus:ring-2 focus:ring-wine-500 focus:ring-offset-2 focus:ring-offset-cream-100;
+    }
+    .btn-gold {
+        @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold-400 px-7 py-3.5 text-sm font-semibold tracking-wide text-wine-950 shadow-sm transition hover:bg-gold-300 hover:shadow-lift focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-cream-100;
+    }
+    .btn-ghost {
+        @apply inline-flex items-center justify-center gap-2 rounded-full border border-cream-50/40 bg-cream-50/5 px-7 py-3.5 text-sm font-semibold tracking-wide text-cream-50 backdrop-blur transition hover:bg-cream-50/15;
+    }
+    .btn-outline {
+        @apply inline-flex items-center justify-center gap-2 rounded-full border border-wine-700/25 bg-transparent px-7 py-3.5 text-sm font-semibold tracking-wide text-wine-800 transition hover:border-wine-700/50 hover:bg-wine-700/5;
+    }
+
+    /* --- Section typography ------------------------------------------- */
+    .section-eyebrow {
+        @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-wine-600;
+    }
+    .section-title {
+        @apply font-display text-3xl font-semibold leading-tight text-ink-900 sm:text-4xl md:text-[2.75rem];
+    }
+
+    /* --- Cards -------------------------------------------------------- */
+    .card {
+        @apply rounded-3xl border border-cream-300/70 bg-cream-50 shadow-soft;
+    }
+
+    /* Hairline flourish used under eyebrows / between sections. */
+    .rule-gold {
+        @apply h-px w-16 bg-gradient-to-r from-gold-400 to-transparent;
+    }
+}
+
+@layer utilities {
+    /* Scroll-reveal: elements start hidden, .is-visible is added by the
+       IntersectionObserver in app.js. Reduced-motion users see them instantly. */
+    .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        transition-delay: var(--reveal-delay, 0ms);
+        will-change: opacity, transform;
+    }
+    .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Subtle paper grain / warmth behind hero and dark sections. */
+    .bg-paper-radial {
+        background-image:
+            radial-gradient(60rem 40rem at 85% -10%, rgb(233 189 99 / 0.18), transparent 60%),
+            radial-gradient(50rem 40rem at 0% 110%, rgb(97 31 38 / 0.06), transparent 55%);
+    }
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    .animate-float-slow,
+    .animate-pour {
+        animation: none !important;
+    }
+}
