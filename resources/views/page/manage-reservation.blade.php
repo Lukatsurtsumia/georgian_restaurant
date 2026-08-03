@@ -57,6 +57,12 @@
                             <dt class="text-stone-500">{{ __('site.reservation.guests') }}</dt>
                             <dd class="font-medium text-stone-900">{{ $reservation->guests }}</dd>
                         </div>
+                        @if ($reservation->table)
+                            <div class="flex justify-between py-3">
+                                <dt class="text-stone-500">{{ __('site.reservation.table_step_label') }}</dt>
+                                <dd class="font-medium text-stone-900">{{ $reservation->table->label }} · {{ __('site.reservation.zone_'.$reservation->table->zone) }}</dd>
+                            </div>
+                        @endif
                         <div class="flex justify-between py-3">
                             <dt class="text-stone-500">{{ __('site.reservation.notes') }}</dt>
                             <dd class="font-medium text-stone-900">{{ $reservation->notes ?: __('site.manage.no_notes') }}</dd>

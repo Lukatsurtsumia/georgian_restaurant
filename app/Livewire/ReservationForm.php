@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Mail\ReservationAlert;
 use App\Mail\ReservationReceived;
 use App\Models\Reservation;
 use Carbon\Carbon;
@@ -18,6 +19,8 @@ class ReservationForm extends Component
     public string $time = '';
 
     public int $guests = 2;
+
+    public ?int $tableId = null;
 
     public string $name = '';
 
@@ -42,12 +45,36 @@ class ReservationForm extends Component
     public function updatedDate(): void
     {
         $this->time = '';
-        unset($this->availableSlots);
+        $this->tableId = null;
+        unset($this->availableSlots, $this->availableTables);
     }
 
     public function updatedGuests(): void
     {
-        unset($this->availableSlots);
+        $this->tableId = null;
+        unset($this->availableSlots, $this->availableTables);
+    }
+
+    public function updatedTime(): void
+    {
+        // A different time slot means a different set of free tables.
+        $this->tableId = null;
+        unset($this->availableTables);
+    }
+
+    #[Computed]
+    public function availableTables(): \Illuminate\Support\Collection
+    {
+        if (! $this->date || ! $this->time) {
+            return collect();
+        }
+
+        return Reservation::availableTables($this->date, $this->time, $this->guests);
+    }
+
+    protected function availableTableIds(): array
+    {
+        return $this->availableTables()->pluck('id')->all();
     }
 
     #[Computed]
@@ -126,7 +153,16 @@ class ReservationForm extends Component
         ];
     }
 
-    public function goToDetails(): void
+    protected function tableRules(): array
+    {
+        // A table is optional ("no preference"), but if one is chosen it must be
+        // one that's genuinely free for this slot and big enough for the party.
+        return [
+            'tableId' => ['nullable', 'integer', 'in:'.collect($this->availableTableIds())->implode(',')],
+        ];
+    }
+
+    public function goToTables(): void
     {
         $this->validate($this->dateTimeRules());
         $this->step = 2;
@@ -135,6 +171,22 @@ class ReservationForm extends Component
     public function backToDateTime(): void
     {
         $this->step = 1;
+    }
+
+    public function selectTable(int $id): void
+    {
+        $this->tableId = $this->tableId === $id ? null : $id;
+    }
+
+    public function goToDetails(): void
+    {
+        $this->validate($this->dateTimeRules() + $this->tableRules());
+        $this->step = 3;
+    }
+
+    public function backToTables(): void
+    {
+        $this->step = 2;
     }
 
     /**
@@ -159,12 +211,12 @@ class ReservationForm extends Component
 
     public function save(): void
     {
-        $this->validate($this->dateTimeRules() + $this->detailsRules());
+        $this->validate($this->dateTimeRules() + $this->tableRules() + $this->detailsRules());
 
-        // The rule above is an optimistic check for fast UX feedback; the real
+        // The rules above are an optimistic check for fast UX feedback; the real
         // capacity guard is the atomic re-check inside createWithCapacityCheck(),
         // which closes the race window between two people booking the last seats
-        // in the same slot at the same time.
+        // (or the same table) in the same slot at the same time.
         $reservation = Reservation::createWithCapacityCheck([
             'name' => $this->name,
             'email' => $this->email,
@@ -172,13 +224,23 @@ class ReservationForm extends Component
             'date' => $this->date,
             'time' => $this->time,
             'guests' => $this->guests,
+            'table_id' => $this->tableId,
             'notes' => $this->notes,
         ]);
 
         if (! $reservation) {
-            unset($this->availableSlots);
-            $this->step = 1;
-            $this->addError('time', __('site.reservation.slot_full'));
+            unset($this->availableSlots, $this->availableTables);
+
+            // If the table we wanted was taken under contention, send them back to
+            // the floor plan; otherwise the whole slot filled up, so back to step 1.
+            if ($this->tableId && ! in_array($this->tableId, $this->availableTableIds(), true)) {
+                $this->tableId = null;
+                $this->step = 2;
+                $this->addError('tableId', __('site.reservation.table_taken'));
+            } else {
+                $this->step = 1;
+                $this->addError('time', __('site.reservation.slot_full'));
+            }
 
             return;
         }
@@ -188,13 +250,16 @@ class ReservationForm extends Component
         // not the customer's chosen locale for this request.
         Mail::to($reservation->email)->locale(app()->getLocale())->send(new ReservationReceived($reservation));
 
+        // Ping the restaurant too, so the owner doesn't have to watch the dashboard.
+        Mail::to(config('restaurant.owner_email'))->locale(config('app.locale'))->send(new ReservationAlert($reservation));
+
         $this->confirmedName = $reservation->name;
         $this->confirmedDate = $reservation->date->translatedFormat('d F Y');
         $this->confirmedTime = Carbon::parse($reservation->time)->format('H:i');
         $this->manageUrl = route('reservations.manage', $reservation->manage_token);
         $this->confirmedCalendarUrl = $this->buildCalendarUrl($reservation);
 
-        $this->reset(['name', 'email', 'phone', 'date', 'time', 'notes', 'step']);
+        $this->reset(['name', 'email', 'phone', 'date', 'time', 'notes', 'step', 'tableId']);
         $this->guests = 2;
         $this->submitted = true;
     }
@@ -229,11 +294,17 @@ class ReservationForm extends Component
 
     public function render()
     {
+        $held = ($this->date && $this->time)
+            ? Reservation::heldTableIds($this->date, $this->time)
+            : [];
+
         return view('livewire.reservation-form', [
             'maxGuests' => config('restaurant.reservation.max_guests'),
             'minDate' => now()->addHours(config('restaurant.reservation.min_hours_ahead'))->toDateString(),
             'maxDate' => now()->addDays(config('restaurant.reservation.max_days_ahead'))->toDateString(),
             'googleEnabled' => filled(config('services.google.client_id')),
+            'allTables' => \App\Models\RestaurantTable::orderBy('sort')->get(),
+            'heldTableIds' => $held,
         ]);
     }
 }

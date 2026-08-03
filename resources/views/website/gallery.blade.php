@@ -1,11 +1,13 @@
 @php
     $galleryImages = [
-        'gallery/khachapuri.jpg',
-        'gallery/khinkali.jpg',
-        'gallery/supra.jpg',
-        'gallery/qvevri.jpg',
-        'gallery/mtsvadi.jpg',
-        'gallery/khachapuri-khinkali.jpg',
+        'photos/interior.jpg',
+        'photos/dish-truffle-bread.jpg',
+        'photos/wine-table.jpg',
+        'photos/starter-pkhali.jpg',
+        'photos/dish-mushrooms2.jpg',
+        'photos/dish-dessert.jpg',
+        'photos/terrace.jpg',
+        'photos/dish-creamy.jpg',
     ];
 @endphp
 
@@ -17,17 +19,11 @@
             <p class="reveal mt-4 text-lg text-ink-700">{{ __('site.gallery.lead') }}</p>
         </div>
 
-        {{-- Editorial mosaic: first tile spans larger for rhythm. --}}
-        <div class="mt-16 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+        <div class="mt-16 columns-2 gap-4 md:columns-3 md:gap-5 lg:columns-4">
             @foreach ($galleryImages as $index => $image)
-                <div @class([
-                    'reveal group relative overflow-hidden rounded-2xl',
-                    'col-span-2 row-span-2 aspect-square sm:aspect-auto' => $index === 0,
-                    'aspect-square' => $index !== 0,
-                ]) style="--reveal-delay: {{ $index * 70 }}ms">
+                <div class="reveal group mb-4 break-inside-avoid overflow-hidden rounded-xl md:mb-5" style="--reveal-delay: {{ ($index % 4) * 80 }}ms">
                     <img src="{{ asset('images/'.$image) }}" alt=""
-                         class="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
-                    <div class="absolute inset-0 bg-gradient-to-t from-wine-950/30 to-transparent opacity-0 transition group-hover:opacity-100"></div>
+                         class="w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy">
                 </div>
             @endforeach
         </div>

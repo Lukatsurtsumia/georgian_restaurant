@@ -71,6 +71,7 @@ class ReservationManager extends Component
     public function render()
     {
         $reservations = Reservation::query()
+            ->with('table')
             ->when($this->statusFilter !== 'all', fn ($query) => $query->where('status', $this->statusFilter))
             ->when($this->search !== '', function ($query) {
                 $query->where(function ($q) {

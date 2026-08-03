@@ -15,6 +15,9 @@
 | **{{ __('site.reservation.date') }}** | {{ $reservation->date->translatedFormat('d F Y') }} |
 | **{{ __('site.reservation.time') }}** | {{ \Carbon\Carbon::parse($reservation->time)->format('H:i') }} |
 | **{{ __('site.reservation.guests') }}** | {{ $reservation->guests }} |
+@if ($reservation->table)
+| **{{ __('site.reservation.table_step_label') }}** | {{ $reservation->table->label }} · {{ __('site.reservation.zone_'.$reservation->table->zone) }} |
+@endif
 @if ($reservation->notes)
 | **{{ __('site.reservation.notes') }}** | {{ $reservation->notes }} |
 @endif

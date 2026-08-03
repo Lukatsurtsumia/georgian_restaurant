@@ -29,6 +29,9 @@ return [
         'email' => 'contact@painetpinot.fr', // placeholder — confirm real inbox
     ],
 
+    // Where new-booking alerts are sent (the restaurant's own inbox).
+    'owner_email' => env('OWNER_EMAIL', 'contact@painetpinot.fr'),
+
     'address' => [
         'street' => '3 Rue Chauvain',
         'postcode' => '06000',

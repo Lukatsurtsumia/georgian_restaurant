@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ReservationAlert;
 use App\Mail\ReservationReceived;
 use App\Models\Reservation;
 use Illuminate\Http\RedirectResponse;
@@ -55,6 +56,7 @@ class GoogleBookingController extends Controller
         }
 
         Mail::to($reservation->email)->locale(app()->getLocale())->send(new ReservationReceived($reservation));
+        Mail::to(config('restaurant.owner_email'))->locale(config('app.locale'))->send(new ReservationAlert($reservation));
 
         return redirect()->route('reservations.manage', $reservation->manage_token)->with('just_booked', true);
     }

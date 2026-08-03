@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -21,6 +23,7 @@ class Reservation extends Model
         'date',
         'time',
         'guests',
+        'table_id',
         'notes',
         'status',
         'source',
@@ -29,6 +32,39 @@ class Reservation extends Model
     protected $casts = [
         'date' => 'date',
     ];
+
+    public function table(): BelongsTo
+    {
+        return $this->belongsTo(RestaurantTable::class, 'table_id');
+    }
+
+    /** Table ids already held (pending/confirmed) for a given date + time slot. */
+    public static function heldTableIds(string $date, string $time, ?int $excludingId = null): array
+    {
+        return static::query()
+            ->whereDate('date', $date)
+            ->where('time', $time)
+            ->where('status', '!=', self::STATUS_CANCELLED)
+            ->whereNotNull('table_id')
+            ->when($excludingId, fn ($query) => $query->whereKeyNot($excludingId))
+            ->pluck('table_id')
+            ->all();
+    }
+
+    /**
+     * Tables that can seat a party of $guests and aren't already taken for the
+     * given date + time slot. Used to render the floor plan and validate a pick.
+     */
+    public static function availableTables(string $date, string $time, int $guests): Collection
+    {
+        $held = self::heldTableIds($date, $time);
+
+        return RestaurantTable::query()
+            ->where('seats', '>=', $guests)
+            ->whereNotIn('id', $held ?: [0])
+            ->orderBy('sort')
+            ->get();
+    }
 
     protected static function booted(): void
     {
@@ -77,6 +113,20 @@ class Reservation extends Model
         try {
             if (self::remainingSeats($attributes['date'], $attributes['time']) < $attributes['guests']) {
                 return null;
+            }
+
+            // If a specific table was requested, re-check under the same lock that
+            // it hasn't just been taken — closes the table double-book race too.
+            if (! empty($attributes['table_id'])) {
+                $taken = in_array(
+                    (int) $attributes['table_id'],
+                    self::heldTableIds($attributes['date'], $attributes['time']),
+                    true
+                );
+
+                if ($taken) {
+                    return null;
+                }
             }
 
             return self::create($attributes);

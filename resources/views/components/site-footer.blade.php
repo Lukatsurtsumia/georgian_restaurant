@@ -58,8 +58,9 @@
             </div>
         </div>
 
-        <div class="mt-12 border-t border-cream-50/10 pt-6 text-xs">
-            &copy; {{ now()->year }} {{ __('site.brand.name') }}. {{ __('site.footer.rights') }}
+        <div class="mt-12 flex flex-col gap-2 border-t border-cream-50/10 pt-6 text-xs">
+            <p>&copy; {{ now()->year }} {{ __('site.brand.name') }}. {{ __('site.footer.rights') }}</p>
+            <p class="text-cream-50/40">{{ __('site.footer.credits') }}</p>
         </div>
     </div>
 </footer>

@@ -7,11 +7,25 @@
     // Prefer a real uploaded image; otherwise map well-known dishes to the
     // gallery photography we ship; otherwise fall back to a monogram plate.
     $keywords = [
-        'khachapuri' => 'gallery/khachapuri.jpg',
+        // Real Pain et Pinot photography where we have it, stock otherwise.
+        'khachapuri' => 'photos/dish-truffle-bread.jpg',
         'khinkali' => 'gallery/khinkali.jpg',
         'mtsvadi' => 'gallery/mtsvadi.jpg',
         'grill' => 'gallery/mtsvadi.jpg',
         'skewer' => 'gallery/mtsvadi.jpg',
+        'pkhali' => 'photos/dish-mushrooms.jpg',
+        'badrijani' => 'photos/dish-mushrooms.jpg',
+        'lobio' => 'photos/dish-mushrooms.jpg',
+        'cold' => 'photos/dish-mushrooms.jpg',
+        'starter' => 'photos/dish-mushrooms.jpg',
+        'churchkhela' => 'photos/dish-dessert.jpg',
+        'gozinaki' => 'photos/dish-dessert.jpg',
+        'dessert' => 'photos/dish-dessert.jpg',
+        'saperavi' => 'photos/terrace.jpg',
+        'rkatsiteli' => 'photos/terrace.jpg',
+        'borjomi' => 'photos/terrace.jpg',
+        'wine' => 'photos/terrace.jpg',
+        'drink' => 'photos/terrace.jpg',
     ];
 
     $src = null;

@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Livewire\Admin\DashboardOverview;
 use App\Livewire\Admin\MenuItemManager;
 use App\Livewire\Admin\ReservationManager;
+use App\Livewire\Admin\SpecialManager;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -31,6 +32,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     Route::get('/', DashboardOverview::class)->name('dashboard');
     Route::get('/reservations', ReservationManager::class)->name('reservations');
     Route::get('/menu-items', MenuItemManager::class)->name('menu-items');
+    Route::get('/specials', SpecialManager::class)->name('specials');
 });
 
 Route::middleware('auth')->group(function () {

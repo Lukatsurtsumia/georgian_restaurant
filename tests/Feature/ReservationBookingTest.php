@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Livewire\ReservationForm;
+use App\Mail\ReservationAlert;
 use App\Mail\ReservationReceived;
 use App\Models\Reservation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -40,8 +41,10 @@ class ReservationBookingTest extends TestCase
             ->set('date', $date)
             ->set('guests', 4)
             ->set('time', '19:30')
-            ->call('goToDetails')
+            ->call('goToTables')
             ->assertSet('step', 2)
+            ->call('goToDetails')
+            ->assertSet('step', 3)
             ->set('name', 'Nino Kapanadze')
             ->set('email', 'nino@example.com')
             ->set('phone', '+33611112222')
@@ -60,6 +63,7 @@ class ReservationBookingTest extends TestCase
         $this->assertNotEmpty($reservation->manage_token);
 
         Mail::assertQueued(ReservationReceived::class, fn ($mail) => $mail->reservation->is($reservation));
+        Mail::assertQueued(ReservationAlert::class, fn ($mail) => $mail->reservation->is($reservation));
     }
 
     public function test_it_rejects_a_booking_on_the_closed_day(): void
@@ -73,7 +77,7 @@ class ReservationBookingTest extends TestCase
             ->set('date', $closedDate->toDateString())
             ->set('guests', 2)
             ->set('time', '19:00')
-            ->call('goToDetails')
+            ->call('goToTables')
             ->assertHasErrors('date');
     }
 
@@ -96,7 +100,7 @@ class ReservationBookingTest extends TestCase
             ->set('date', $date)
             ->set('guests', 5) // only 2 seats remain
             ->set('time', '20:00')
-            ->call('goToDetails')
+            ->call('goToTables')
             ->assertHasErrors('time');
     }
 
@@ -121,6 +125,7 @@ class ReservationBookingTest extends TestCase
             ->set('date', $date)
             ->set('guests', 3)
             ->set('time', '20:30')
+            ->call('goToTables')
             ->call('goToDetails')
             ->set('name', 'Exact Fit')
             ->set('email', 'exact@example.com')

@@ -38,7 +38,7 @@
 
                             <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                                 @foreach ($category->items as $item)
-                                    <article class="reveal group flex flex-col overflow-hidden rounded-2xl border border-cream-300/70 bg-cream-50 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift"
+                                    <article data-tilt="5" class="reveal group flex flex-col overflow-hidden rounded-2xl border border-cream-300/70 bg-cream-50 shadow-soft transition duration-300 hover:shadow-lift"
                                              style="--reveal-delay: {{ ($loop->index % 3) * 80 }}ms"
                                              x-show="filter === 'all' || (filter === 'signature' && {{ $item->is_featured ? 'true' : 'false' }}) || (filter === 'veg' && {{ $item->is_vegetarian ? 'true' : 'false' }})"
                                              x-transition.opacity>

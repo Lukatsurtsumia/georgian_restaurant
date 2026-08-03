@@ -42,6 +42,7 @@
                         <th class="px-4 py-3">Guest</th>
                         <th class="px-4 py-3">Date &amp; Time</th>
                         <th class="px-4 py-3">{{ __('site.reservation.guests') }}</th>
+                        <th class="px-4 py-3">{{ __('site.reservation.table_step_label') }}</th>
                         <th class="px-4 py-3">Status</th>
                         <th class="px-4 py-3 text-right">Actions</th>
                     </tr>
@@ -70,6 +71,16 @@
                             </td>
                             <td class="px-4 py-3 text-stone-600">{{ $reservation->guests }}</td>
                             <td class="px-4 py-3">
+                                @if ($reservation->table)
+                                    <span class="inline-flex items-center gap-1 rounded-md bg-wine-50 px-2.5 py-1 text-xs font-bold text-wine-700">
+                                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><circle cx="12" cy="12" r="9"/></svg>
+                                        {{ $reservation->table->label }}
+                                    </span>
+                                @else
+                                    <span class="text-xs text-stone-300">{{ __('site.reservation.table_none') }}</span>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3">
                                 <span @class([
                                     'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
                                     'bg-amber-100 text-amber-800' => $reservation->status === 'pending',
@@ -87,7 +98,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-4 py-12 text-center text-stone-400">{{ __('site.admin.no_reservations') }}</td>
+                            <td colspan="6" class="px-4 py-12 text-center text-stone-400">{{ __('site.admin.no_reservations') }}</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -141,6 +152,10 @@
                         <div class="flex justify-between py-3">
                             <dt class="text-stone-500">{{ __('site.reservation.guests') }}</dt>
                             <dd class="font-medium text-stone-900">{{ $selected->guests }}</dd>
+                        </div>
+                        <div class="flex justify-between py-3">
+                            <dt class="text-stone-500">{{ __('site.reservation.table_step_label') }}</dt>
+                            <dd class="font-semibold text-wine-700">{{ $selected->table ? $selected->table->label.' · '.__('site.reservation.zone_'.$selected->table->zone) : __('site.reservation.table_none') }}</dd>
                         </div>
                         <div class="flex justify-between py-3">
                             <dt class="text-stone-500">{{ __('site.reservation.email') }}</dt>
