@@ -11,7 +11,6 @@ return [
         'home' => 'Home',
         'menu' => 'Menu',
         'about' => 'About',
-        'gallery' => 'Gallery',
         'hours' => 'Hours & Location',
         'reserve' => 'Reserve a Table',
         'close' => 'Close',
@@ -89,28 +88,11 @@ return [
         'photo_soon' => 'Photo coming soon',
     ],
 
-    'gallery' => [
-        'eyebrow' => 'Inside Pain et Pinot',
-        'title' => 'The Table & the Kitchen',
-        'lead' => 'A glimpse of the room, the plates, and the wine that comes with them.',
-    ],
-
     'signatures' => [
         'eyebrow' => 'The Signatures',
         'title' => 'Dishes worth the trip',
         'lead' => 'The three plates our regulars order on repeat — and the ones we\'d put in front of you first.',
         'cta' => 'See it on the menu',
-    ],
-
-    'kitchen_drink' => [
-        'eyebrow' => 'Kitchen & Cellar',
-        'title' => 'Two reasons to sit down',
-        'kitchen_title' => 'The Kitchen',
-        'kitchen_body' => 'Georgian classics and European plates — khachapuri from the oven, khinkali folded by hand, the grill going all night.',
-        'kitchen_cta' => 'Explore the kitchen',
-        'cellar_title' => 'The Cellar',
-        'cellar_body' => 'A wine bar at heart: qvevri reds and ambers, European bottles and cocktails — plenty poured by the glass.',
-        'cellar_cta' => 'Explore the cellar',
     ],
 
     'reservation' => [
