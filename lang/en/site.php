@@ -77,6 +77,7 @@ return [
         'title' => 'Signatures from the table',
         'lead' => 'A taste of the carte — khinkali, khachapuri and the grill. The full menu changes with the season; ask your server about the day\'s specials.',
         'preview_eyebrow' => 'Chef\'s Selection',
+        'preview_title' => 'Our Dishes',
         'featured' => 'Signature',
         'view_full' => 'See the Full Menu',
         'vegetarian' => 'Vegetarian',

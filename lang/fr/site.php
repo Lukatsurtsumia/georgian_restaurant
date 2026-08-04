@@ -77,6 +77,7 @@ return [
         'title' => 'Les signatures de la maison',
         'lead' => 'Un aperçu de la carte — khinkalis, khachapouri et grillades. La carte complète évolue selon la saison ; demandez les suggestions du jour.',
         'preview_eyebrow' => 'La Sélection',
+        'preview_title' => 'Nos Plats',
         'featured' => 'Signature',
         'view_full' => 'Voir la Carte Complète',
         'vegetarian' => 'Végétarien',

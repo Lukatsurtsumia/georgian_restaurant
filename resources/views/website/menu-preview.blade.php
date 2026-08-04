@@ -2,7 +2,7 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
             <p class="section-eyebrow reveal justify-center"><span class="rule-gold"></span>{{ __('site.menu.preview_eyebrow') }}<span class="rule-gold rotate-180"></span></p>
-            <h2 class="section-title reveal mt-4">{{ __('site.menu.title') }}</h2>
+            <h2 class="section-title reveal mt-4">{{ __('site.menu.preview_title') }}</h2>
             <p class="reveal mt-4 text-lg text-ink-700">{{ __('site.menu.lead') }}</p>
         </div>
 
