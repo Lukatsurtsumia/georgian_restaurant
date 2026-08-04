@@ -1,19 +1,6 @@
 @php
     $cats = $menuCategories ?? collect();
 
-    $imageFor = function ($cat) {
-        $name = \Illuminate\Support\Str::lower($cat->name_en ?? '');
-        return match (true) {
-            str_contains($name, 'khachapuri') => 'photos/dish-truffle-bread.jpg',
-            str_contains($name, 'khinkali') => 'gallery/khinkali.jpg',
-            str_contains($name, 'grill') => 'gallery/mtsvadi.jpg',
-            str_contains($name, 'cold'), str_contains($name, 'starter') => 'photos/starter-pkhali.jpg',
-            str_contains($name, 'wine'), str_contains($name, 'drink') => 'photos/wine-table.jpg',
-            str_contains($name, 'dessert') => 'photos/dish-dessert.jpg',
-            default => 'photos/interior.jpg',
-        };
-    };
-
     // Repeat the set enough times that the strip always overflows the screen and
     // can loop forever with no gaps — even for a small menu (5 items or fewer).
     $setSize = max(1, $cats->count());
