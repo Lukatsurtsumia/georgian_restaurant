@@ -76,21 +76,21 @@
         @foreach ($loopCats as $i => $cat)
             <a href="{{ route('menu.index') }}" data-card
                @if ($i >= $cats->count()) aria-hidden="true" tabindex="-1" @endif
-               class="group relative block aspect-[3/4] w-[230px] shrink-0 overflow-hidden rounded-xl shadow-soft transition-shadow duration-500 hover:shadow-lift sm:w-[256px] lg:w-[288px]">
-                <img src="{{ asset('images/'.$imageFor($cat)) }}" alt="{{ $cat->name() }}"
-                     class="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.12]" loading="lazy">
-                <div class="absolute inset-0 bg-gradient-to-t from-wine-950/95 via-wine-950/25 to-transparent"></div>
+               class="group relative flex aspect-[3/4] w-[230px] shrink-0 flex-col items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-wine-800 via-wine-900 to-wine-950 shadow-soft transition-shadow duration-500 hover:shadow-lift sm:w-[256px] lg:w-[288px]">
+                {{-- warm paper texture + a large faint logo watermark --}}
+                <div class="absolute inset-0 bg-paper-radial opacity-30"></div>
+                <div class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.07]">
+                    <x-brand-mark tone="cream" class="h-56 w-56" />
+                </div>
 
-                {{-- gold frame on hover --}}
-                <span class="pointer-events-none absolute inset-3.5 rounded-lg border border-gold-300/0 transition-all duration-500 group-hover:border-gold-300/70"></span>
+                {{-- gold frame (brightens on hover) --}}
+                <span class="pointer-events-none absolute inset-3.5 rounded-lg border border-gold-300/20 transition-all duration-500 group-hover:border-gold-300/70"></span>
 
-                {{-- content --}}
-                <div class="absolute inset-x-0 bottom-0 p-6">
-                    <h3 class="font-display text-xl font-semibold uppercase leading-tight tracking-[0.1em] text-cream-50">{{ $cat->name() }}</h3>
-                    <div class="mt-3 flex items-center gap-2.5">
-                        <span class="h-px w-8 bg-gold-300 transition-all duration-500 group-hover:w-12"></span>
-                        <span class="translate-x-1 whitespace-nowrap text-[11px] font-semibold uppercase tracking-luxe text-gold-300 opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100">{{ __('site.menu.see_more') }} &rarr;</span>
-                    </div>
+                {{-- classic logo + category name only --}}
+                <div class="relative flex flex-col items-center px-5 text-center">
+                    <x-brand-mark tone="cream" class="h-11 w-11 transition-transform duration-500 group-hover:-translate-y-1" />
+                    <h3 class="mt-5 font-display text-xl font-semibold uppercase leading-snug tracking-[0.15em] text-cream-50 sm:text-2xl">{{ $cat->name() }}</h3>
+                    <span class="mt-4 h-px w-8 bg-gold-300/70 transition-all duration-500 group-hover:w-16"></span>
                 </div>
             </a>
         @endforeach
