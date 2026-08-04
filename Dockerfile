@@ -15,6 +15,9 @@ WORKDIR /app
 # Application source (includes the pre-built public/build)
 COPY --chown=application:application . /app
 
+# Long-cache static assets (browsers download videos/images/build once, not every visit)
+COPY docker/nginx/cache.conf /opt/docker/etc/nginx/vhost.common.d/50-cache.conf
+
 # PHP dependencies (production only) + writable Laravel dirs + public storage link
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist \
  && ln -sf /app/storage/app/public /app/public/storage \
