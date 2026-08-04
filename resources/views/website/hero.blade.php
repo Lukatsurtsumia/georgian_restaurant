@@ -53,7 +53,7 @@
                 <video x-show="useVideo" x-cloak
                        x-effect="(useVideo && active === {{ $i }}) ? $el.play().catch(() => {}) : $el.pause()"
                        class="absolute inset-0 h-full w-full scale-[1.22] object-contain"
-                       muted loop playsinline preload="auto" poster="{{ asset($clip['poster']) }}">
+                       muted loop playsinline preload="{{ $i === 0 ? 'auto' : 'none' }}" poster="{{ asset($clip['poster']) }}">
                     {{-- ?v bump = cache-buster: forces browsers to fetch the new lightweight
                          clips instead of replaying a heavy 22MB version cached earlier. --}}
                     <source src="{{ asset($clip['file']) }}?v=2" type="video/mp4">

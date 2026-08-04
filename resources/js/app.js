@@ -206,6 +206,18 @@ function initLoader() {
 }
 
 initLoader();
+
+// After first paint, quietly buffer the remaining hero clips so they're ready
+// before their slide arrives — without holding up initial load (this keeps the
+// browser tab's loading spinner short and the first clip smooth).
+window.addEventListener('load', () => {
+    document.querySelectorAll('[data-hero] video').forEach((v, i) => {
+        if (i === 0) return;
+        v.preload = 'auto';
+        try { v.load(); } catch (e) { /* ignore */ }
+    });
+}, { once: true });
+
 document.addEventListener('DOMContentLoaded', initReveal);
 document.addEventListener('livewire:navigated', initReveal);
 document.addEventListener('livewire:update', () => requestAnimationFrame(initReveal));
