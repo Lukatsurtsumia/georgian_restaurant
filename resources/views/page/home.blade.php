@@ -4,6 +4,7 @@
     @include('website.about')
     @include('website.regions')
     @include('website.signatures', ['featuredItems' => $featuredItems])
+    @include('website.kitchen-drink')
     @include('website.menu-carousel', ['menuCategories' => $menuCategories])
     @include('website.reviews')
     @include('website.reservation')

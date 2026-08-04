@@ -35,20 +35,26 @@
             <h2 class="section-title reveal mt-4">{{ __('site.about.title') }}</h2>
             <p class="reveal mt-6 text-lg leading-relaxed text-ink-700">{{ __('site.about.body') }}</p>
 
-            <dl class="mt-10 grid gap-6 sm:grid-cols-3">
+            <dl class="mt-10 grid gap-4 sm:grid-cols-3 sm:gap-5">
                 @foreach ([1, 2, 3] as $i)
-                    <div class="reveal" style="--reveal-delay: {{ $i * 100 }}ms">
-                        <div class="flex h-11 w-11 items-center justify-center rounded-full bg-wine-700/10 text-wine-700">
+                    <div class="reveal group flex items-start gap-4 rounded-2xl border border-cream-200 bg-cream-100/40 p-5 transition duration-300 hover:-translate-y-0.5 hover:border-gold-300/70 hover:bg-cream-100 hover:shadow-soft sm:flex-col sm:gap-0"
+                         style="--reveal-delay: {{ $i * 100 }}ms">
+                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-wine-700/10 text-wine-700 ring-1 ring-wine-700/10 transition duration-300 group-hover:bg-wine-700 group-hover:text-cream-50 sm:mb-5">
                             @if ($i === 1)
-                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Zm6-3 6 6m0-6-6 6"/></svg>
+                                {{-- from the oven --}}
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.048 8.287 8.287 0 0 0 9 9.6a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"/></svg>
                             @elseif ($i === 2)
-                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3h8l-1 8a3 3 0 0 1-6 0L8 3Zm4 11v7m-3 0h6"/></svg>
+                                {{-- wine glass --}}
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3h8l-1 8a3 3 0 0 1-6 0L8 3Zm4 11v7m-3 0h6"/></svg>
                             @else
-                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-4.35-7-9a4 4 0 0 1 7-2.65A4 4 0 0 1 19 12c0 4.65-7 9-7 9Z"/></svg>
+                                {{-- folded by hand --}}
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.7" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.05 4.575a1.575 1.575 0 1 0-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 0 1 3.15 0v1.5m-3.15 0 .075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 0 1 3.15 0V15M6.9 7.575a1.575 1.575 0 1 0-3.15 0v8.175a6.75 6.75 0 0 0 6.75 6.75h2.018a5.25 5.25 0 0 0 3.712-1.538l1.732-1.732a5.25 5.25 0 0 0 1.538-3.712l.003-2.024a.668.668 0 0 1 .198-.471 1.575 1.575 0 1 0-2.228-2.228 3.818 3.818 0 0 0-1.12 2.687M6.9 7.575V12"/></svg>
                             @endif
                         </div>
-                        <dt class="mt-4 font-display text-base font-semibold text-wine-800">{{ __('site.about.point_'.$i.'_title') }}</dt>
-                        <dd class="mt-1.5 text-sm leading-relaxed text-ink-700/80">{{ __('site.about.point_'.$i.'_body') }}</dd>
+                        <div>
+                            <dt class="font-display text-base font-semibold text-wine-800">{{ __('site.about.point_'.$i.'_title') }}</dt>
+                            <dd class="mt-1.5 text-sm leading-relaxed text-ink-700/80">{{ __('site.about.point_'.$i.'_body') }}</dd>
+                        </div>
                     </div>
                 @endforeach
             </dl>
