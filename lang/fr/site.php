@@ -76,8 +76,6 @@ return [
         'eyebrow' => 'La Carte',
         'title' => 'Les signatures de la maison',
         'lead' => 'Un aperçu de la carte — khinkalis, khachapouri et grillades. La carte complète évolue selon la saison ; demandez les suggestions du jour.',
-        'preview_eyebrow' => 'La Sélection',
-        'preview_title' => 'Nos Plats',
         'featured' => 'Signature',
         'view_full' => 'Voir la Carte Complète',
         'vegetarian' => 'Végétarien',
@@ -98,17 +96,6 @@ return [
         'title' => 'Des plats qui valent le détour',
         'lead' => 'Les trois plats que nos habitués commandent en boucle — et ceux que nous vous mettrions devant en premier.',
         'cta' => 'Voir sur la carte',
-    ],
-
-    'kitchen_drink' => [
-        'eyebrow' => 'Cuisine & Cave',
-        'title' => 'Deux raisons de s\'attabler',
-        'kitchen_title' => 'La Cuisine',
-        'kitchen_body' => 'Classiques géorgiens et plats européens — khachapouri du four, khinkalis pliés à la main, la grillade toute la soirée.',
-        'kitchen_cta' => 'Découvrir la cuisine',
-        'cellar_title' => 'La Cave',
-        'cellar_body' => 'Un bar à vin dans l\'âme : rouges et ambrés en qvevri, bouteilles européennes et cocktails — largement servis au verre.',
-        'cellar_cta' => 'Découvrir la cave',
     ],
 
     'reservation' => [
