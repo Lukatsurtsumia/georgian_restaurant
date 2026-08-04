@@ -58,7 +58,7 @@
                        muted loop playsinline preload="{{ $i === 0 ? 'auto' : 'none' }}" poster="{{ asset($clip['poster']) }}">
                     {{-- ?v bump = cache-buster: forces browsers to fetch the new lightweight
                          clips instead of replaying a heavy 22MB version cached earlier. --}}
-                    <source src="{{ asset($clip['file']) }}?v=2" type="video/mp4">
+                    <source src="{{ asset($clip['file']) }}?v=3" type="video/mp4">
                 </video>
             </div>
         @endforeach
