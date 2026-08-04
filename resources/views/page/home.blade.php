@@ -3,9 +3,7 @@
     @include('website.specials', ['specials' => $specials])
     @include('website.about')
     @include('website.regions')
-    {{-- Signatures temporarily hidden for preview — uncomment to restore --}}
-    {{-- @include('website.signatures', ['featuredItems' => $featuredItems]) --}}
-    @include('website.menu-preview', ['featuredItems' => $featuredItems])
+    @include('website.signatures', ['featuredItems' => $featuredItems])
     @include('website.menu-carousel', ['menuCategories' => $menuCategories])
     @include('website.reviews')
     @include('website.reservation')
