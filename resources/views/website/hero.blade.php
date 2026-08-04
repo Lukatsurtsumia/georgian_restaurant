@@ -4,10 +4,12 @@
     $reviewSource = config('restaurant.reviews.source');
     $phone = config('restaurant.contact.phone');
 
+    // Poster = each clip's OWN first frame, so there is no photo->video swap:
+    // the frozen first frame simply starts moving when the clip plays.
     $clips = [
-        ['file' => 'videos/wine-pour.mp4',     'poster' => 'images/photos/wine-table.jpg'],
-        ['file' => 'videos/kitchen-grill.mp4', 'poster' => 'images/photos/interior.jpg'],
-        ['file' => 'videos/sizzling-pan.mp4',  'poster' => 'images/photos/dish-mushrooms2.jpg'],
+        ['file' => 'videos/wine-pour.mp4',     'poster' => 'videos/frame-wine-pour.jpg'],
+        ['file' => 'videos/kitchen-grill.mp4', 'poster' => 'videos/frame-kitchen-grill.jpg'],
+        ['file' => 'videos/sizzling-pan.mp4',  'poster' => 'videos/frame-sizzling-pan.jpg'],
     ];
 @endphp
 
