@@ -53,7 +53,7 @@
                 <video x-show="useVideo" x-cloak
                        x-effect="(useVideo && active === {{ $i }}) ? $el.play().catch(() => {}) : $el.pause()"
                        class="absolute inset-0 h-full w-full scale-[1.22] object-contain"
-                       muted loop playsinline preload="auto" poster="{{ asset($clip['poster']) }}">
+                       muted loop playsinline preload="{{ $i === 0 ? 'auto' : 'metadata' }}" poster="{{ asset($clip['poster']) }}">
                     <source src="{{ asset($clip['file']) }}" type="video/mp4">
                 </video>
             </div>

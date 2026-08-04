@@ -176,7 +176,10 @@ function initLoader() {
     const loader = document.querySelector('[data-loader]');
     if (!loader) return;
 
+    let done = false;
     const finish = () => {
+        if (done) return;
+        done = true;
         loader.classList.add('is-done');
         document.documentElement.classList.remove('is-loading');
         window.setTimeout(() => loader.remove(), 900);
@@ -190,10 +193,16 @@ function initLoader() {
     sessionStorage.setItem('pp_seen', '1');
     document.documentElement.classList.add('is-loading');
 
-    const cap = window.setTimeout(finish, 1600);
-    window.addEventListener('load', () => window.setTimeout(finish, 350), { once: true });
+    // Hand the loader off the instant the first hero video actually starts
+    // playing, so it reveals moving video rather than a poster. Fallbacks: a
+    // hard cap so it never hangs on a slow link, and any interaction skips it.
+    const heroVideo = document.querySelector('[data-hero] video');
+    if (heroVideo) {
+        heroVideo.addEventListener('playing', () => window.setTimeout(finish, 150), { once: true });
+    }
+    window.setTimeout(finish, 2500);
     ['click', 'wheel', 'keydown', 'touchstart'].forEach((ev) =>
-        window.addEventListener(ev, () => { window.clearTimeout(cap); finish(); }, { once: true, passive: true }));
+        window.addEventListener(ev, finish, { once: true, passive: true }));
 }
 
 initLoader();
