@@ -88,17 +88,15 @@
             <a href="{{ route('menu.index') }}" class="btn-ghost text-base">{{ __('site.hero.cta_menu') }}</a>
         </div>
 
-        <div class="reveal mt-9 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5" style="--reveal-delay: 320ms;">
-            <div class="flex items-center gap-0.5 text-gold-300">
-                @for ($i = 0; $i < 5; $i++)
-                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15.27 16.18 19l-1.64-7.03L20 7.24l-7.19-.61L10 0 7.19 6.63 0 7.24l5.46 4.73L3.82 19z"/></svg>
-                @endfor
+        <div class="reveal mt-9 flex justify-center" style="--reveal-delay: 320ms;">
+            <div class="inline-flex items-center gap-3 rounded-full border border-cream-50/15 bg-wine-950/25 px-5 py-2.5 backdrop-blur-sm">
+                <div class="flex items-center gap-1 text-gold-300">
+                    @for ($i = 0; $i < 5; $i++)
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15.27 16.18 19l-1.64-7.03L20 7.24l-7.19-.61L10 0 7.19 6.63 0 7.24l5.46 4.73L3.82 19z"/></svg>
+                    @endfor
+                </div>
+                <span class="font-display text-xl font-semibold leading-none text-cream-50">{{ $rating }}</span>
             </div>
-            <p class="text-sm text-cream-50/80">
-                <span class="font-semibold text-cream-50">{{ $rating }}</span>
-                {{ __('site.hero.rating_suffix', ['source' => $reviewSource]) }} ·
-                {{ __('site.hero.reviews_count', ['count' => $reviewCount]) }}
-            </p>
         </div>
     </div>
 

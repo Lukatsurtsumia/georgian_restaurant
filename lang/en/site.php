@@ -67,6 +67,9 @@ return [
         'eyebrow' => 'Loved in Nice',
         'title' => 'A table people come back for',
         'lead' => ':rating out of 5 across :count reviews on :source.',
+        'out_of' => 'out of 5',
+        'count_label' => 'reviews',
+        'verified' => 'Verified reviews',
     ],
 
     'menu' => [

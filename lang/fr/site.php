@@ -67,6 +67,9 @@ return [
         'eyebrow' => 'Aimé à Nice',
         'title' => 'Une table où l\'on revient',
         'lead' => ':rating sur 5 pour :count avis sur :source.',
+        'out_of' => 'sur 5',
+        'count_label' => 'avis',
+        'verified' => 'Avis vérifiés',
     ],
 
     'menu' => [
