@@ -17,6 +17,7 @@
         active: 0,
         count: {{ count($clips) }},
         useVideo: false,
+        ready: false,
         timer: null,
         go(i) { this.active = (i + this.count) % this.count; this.restart(); },
         next() { this.go(this.active + 1); },
@@ -34,6 +35,12 @@
             compute();
             reduceMq.addEventListener('change', compute);
             this.start();
+            // Let the hero paint first (poster, headline, buttons), THEN start the
+            // heavy video download — so the page opens instantly instead of waiting
+            // on the clip. Only the visible slide's video ever loads.
+            const kickoff = () => { this.ready = true; };
+            if (document.readyState === 'complete') { setTimeout(kickoff, 350); }
+            else { window.addEventListener('load', () => setTimeout(kickoff, 350), { once: true }); }
         },
     }"
     class="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-wine-950">
@@ -51,9 +58,9 @@
                      :class="useVideo ? 'scale-110 blur-lg brightness-[0.65]' : ''"
                      {{ $i === 0 ? 'loading=eager' : 'loading=lazy' }}>
                 <video x-show="useVideo" x-cloak
-                       x-effect="(useVideo && active === {{ $i }}) ? $el.play().catch(() => {}) : $el.pause()"
+                       x-effect="(useVideo && ready && active === {{ $i }}) ? $el.play().catch(() => {}) : $el.pause()"
                        class="absolute inset-0 h-full w-full scale-[1.22] object-contain"
-                       muted loop playsinline preload="{{ $i === 0 ? 'auto' : 'metadata' }}" poster="{{ asset($clip['poster']) }}">
+                       muted loop playsinline preload="none" poster="{{ asset($clip['poster']) }}">
                     <source src="{{ asset($clip['file']) }}" type="video/mp4">
                 </video>
             </div>
