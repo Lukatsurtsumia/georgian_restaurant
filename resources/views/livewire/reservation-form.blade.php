@@ -143,10 +143,14 @@
                                     <span class="text-[10px] {{ $date === $val ? 'text-cream-50/70' : 'text-ink-700/40' }}">{{ $pill->translatedFormat('M') }}</span>
                                 </button>
                             @endforeach
-                            <label class="col-span-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-cream-400 bg-cream-50 px-3 py-3 text-center text-ink-700/70 transition hover:border-wine-300 hover:text-wine-700">
+                            <label class="relative col-span-3 flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-cream-400 bg-cream-50 px-3 py-3 text-center text-ink-700/70 transition hover:border-wine-300 hover:text-wine-700">
                                 <svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 9h18M4.5 5.25h15A1.5 1.5 0 0 1 21 6.75v12A1.5 1.5 0 0 1 19.5 20.25h-15A1.5 1.5 0 0 1 3 18.75v-12A1.5 1.5 0 0 1 4.5 5.25Z"/></svg>
                                 <span class="text-xs font-medium">{{ __('site.reservation.pick_another_date') }}</span>
-                                <input wire:model.live="date" type="date" min="{{ $minDate }}" max="{{ $maxDate }}" class="sr-only">
+                                {{-- Transparent field fills the whole bar so a tap anywhere opens the
+                                     native date picker (showPicker) on desktop and mobile. --}}
+                                <input wire:model.live="date" type="date" min="{{ $minDate }}" max="{{ $maxDate }}"
+                                       onclick="try{this.showPicker()}catch(e){}"
+                                       class="absolute inset-0 h-full w-full cursor-pointer opacity-0">
                             </label>
                         </div>
                         @error('date') <p class="mt-1.5 text-sm text-wine-600">{{ $message }}</p> @enderror

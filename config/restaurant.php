@@ -58,7 +58,7 @@ return [
     'reservation' => [
         'min_hours_ahead' => 2,
         'max_days_ahead' => 60,
-        'max_guests' => 12,
+        'max_guests' => 20,
 
         // Evening service (last table 22:00, kitchen closes 23:30).
         'service_hours' => [
