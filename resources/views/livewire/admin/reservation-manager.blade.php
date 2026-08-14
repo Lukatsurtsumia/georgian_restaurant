@@ -64,6 +64,12 @@
                                     @endif
                                 </div>
                                 <div class="text-xs text-stone-400">{{ $reservation->email }}</div>
+                                @if ($reservation->discount)
+                                    <span class="mt-1 inline-flex items-center gap-1 rounded-full bg-gold-100 px-2 py-0.5 text-[10px] font-bold text-gold-800">
+                                        <svg class="h-2.5 w-2.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 15.27 16.18 19l-1.64-7.03L20 7.24l-7.19-.61L10 0 7.19 6.63 0 7.24l5.46 4.73L3.82 19z"/></svg>
+                                        {{ $reservation->discount }}
+                                    </span>
+                                @endif
                             </td>
                             <td class="px-4 py-3 text-stone-600">
                                 {{ $reservation->date->format('d/m/Y') }}
@@ -170,6 +176,28 @@
                     <div class="mt-4">
                         <p class="text-xs font-semibold uppercase tracking-wide text-stone-400">{{ __('site.reservation.notes') }}</p>
                         <p class="mt-1.5 text-sm text-stone-600">{{ $selected->notes ?: __('site.manage.no_notes') }}</p>
+                    </div>
+
+                    {{-- Manager-set discount / perk for this booking --}}
+                    <div class="mt-6 rounded-xl bg-wine-50/70 p-4 ring-1 ring-wine-100"
+                         x-data="{ saved: false }" x-on:discount-saved.window="saved = true; setTimeout(() => saved = false, 2000)">
+                        <div class="flex items-center justify-between">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-wine-700">{{ __('site.admin.discount_title') }}</p>
+                            <span x-show="saved" x-cloak x-transition class="text-xs font-medium text-emerald-600">{{ __('site.admin.discount_saved') }}</span>
+                        </div>
+                        <p class="mt-1 text-xs text-stone-500">{{ __('site.admin.discount_hint') }}</p>
+                        <div class="mt-3 flex gap-2">
+                            <input wire:model="discountInput" wire:keydown.enter="saveDiscount" type="text" maxlength="120"
+                                   placeholder="{{ __('site.admin.discount_placeholder') }}"
+                                   class="min-w-0 flex-1 rounded-lg border-stone-300 text-sm shadow-sm focus:border-wine-500 focus:ring-wine-500">
+                            <button wire:click="saveDiscount" wire:loading.attr="disabled" wire:target="saveDiscount" type="button"
+                                    class="shrink-0 rounded-lg bg-wine-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-wine-800 disabled:opacity-50">
+                                {{ __('site.admin.discount_save') }}
+                            </button>
+                        </div>
+                        @if ($selected->discount)
+                            <p class="mt-2 text-xs text-emerald-700">{{ __('site.admin.discount_applied', ['value' => $selected->discount]) }}</p>
+                        @endif
                     </div>
 
                     <p class="mt-6 text-xs text-stone-400">{{ __('site.admin.booked_on', ['date' => $selected->created_at->format('d/m/Y H:i')]) }}</p>

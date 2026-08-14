@@ -27,6 +27,8 @@ class ReservationManager extends Component
 
     public ?int $selectedId = null;
 
+    public string $discountInput = '';
+
     public function updatingStatusFilter(): void
     {
         $this->resetPage();
@@ -56,16 +58,31 @@ class ReservationManager extends Component
     public function view(int $reservationId): void
     {
         $this->selectedId = $reservationId;
+        $this->discountInput = (string) (Reservation::find($reservationId)?->discount ?? '');
     }
 
     public function closeDetails(): void
     {
         $this->selectedId = null;
+        $this->discountInput = '';
     }
 
     public function setStatus(int $reservationId, string $status): void
     {
         Reservation::whereKey($reservationId)->update(['status' => $status]);
+    }
+
+    /** Attach (or clear) a free-text discount/perk on the selected booking. */
+    public function saveDiscount(): void
+    {
+        if (! $this->selectedId) {
+            return;
+        }
+
+        Reservation::whereKey($this->selectedId)
+            ->update(['discount' => trim($this->discountInput) ?: null]);
+
+        $this->dispatch('discount-saved');
     }
 
     public function render()

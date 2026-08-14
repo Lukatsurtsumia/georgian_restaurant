@@ -25,6 +25,7 @@ class Reservation extends Model
         'guests',
         'table_id',
         'notes',
+        'discount',
         'status',
         'source',
     ];
