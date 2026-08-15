@@ -1,8 +1,9 @@
-import Alpine from 'alpinejs';
 import Lenis from 'lenis';
 
-window.Alpine = Alpine;
-Alpine.start();
+// NOTE: Do NOT import/start Alpine here. Livewire 3 bundles Alpine and starts it
+// (@livewireScripts), and it processes all our x-data components too. Starting a
+// second Alpine caused "Detected multiple instances of Alpine" and broke Livewire's
+// reactive DOM updates (e.g. the reservation guest stepper not re-rendering).
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isDesktop = window.matchMedia('(min-width: 768px) and (pointer: fine)').matches;
